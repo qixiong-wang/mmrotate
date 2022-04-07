@@ -4,10 +4,10 @@
     "../landcover_segmentation/land_train_img/"
   ],
   "sizes": [
-    1024
+    512
   ],
   "gaps": [
-    500
+    256
   ],
   "rates": [
     0.5,
