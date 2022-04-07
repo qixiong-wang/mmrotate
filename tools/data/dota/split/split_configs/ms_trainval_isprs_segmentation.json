@@ -1,7 +1,7 @@
 {
   "nproc": 10,
   "img_dirs": [
-    "../landcover_segmentation/land_train_img/"
+    "../landcover_segmentation/land_train_mask/"
   ],
   "sizes": [
     512
@@ -22,6 +22,6 @@
     116,
     124
   ],
-  "save_dir": "../landcover_segmentation/land_train_img_split/",
-  "save_ext": ".jpg"
+  "save_dir": "../landcover_segmentation/land_train_mask_split/",
+  "save_ext": ".png"
 }
