@@ -126,53 +126,53 @@ model = dict(
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
 
-# train_pipeline = [
-#     dict(type='LoadImageFromFile'),
-#     dict(type='LoadAnnotations', with_bbox=True),
-#     dict(type='RResize', img_scale=(1024, 1024)),
-#     dict(
-#         type='RRandomFlip',
-#         flip_ratio=[0.25, 0.25, 0.25],
-#         direction=['horizontal', 'vertical', 'diagonal'],
-#         version=angle_version),
-#     dict(
-#         type='MixUp',
-#         ratio_range=(0.8, 1.6),
-#         pad_val=114.0),
-#     dict(type='Normalize', **img_norm_cfg),
-#     dict(type='Pad', size_divisor=32),
-#     dict(type='DefaultFormatBundle'),
-#     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
-# ]
-
-img_scale=(1024,1024)
 train_pipeline = [
-    dict(type='Mosaic', img_scale=img_scale, pad_val=114.0),
+    dict(type='LoadImageFromFile'),
+    dict(type='LoadAnnotations', with_bbox=True),
+    dict(type='RResize', img_scale=(1024, 1024)),
     dict(
-        type='RandomAffine',
-        scaling_ratio_range=(0.1, 2),
-        border=(-img_scale[0] // 2, -img_scale[1] // 2)),
+        type='RRandomFlip',
+        flip_ratio=[0.25, 0.25, 0.25],
+        direction=['horizontal', 'vertical', 'diagonal'],
+        version=angle_version),
     dict(
         type='MixUp',
-        img_scale=img_scale,
         ratio_range=(0.8, 1.6),
         pad_val=114.0),
-    dict(type='YOLOXHSVRandomAug'),
-    dict(type='RandomFlip', flip_ratio=0.5),
-    # According to the official implementation, multi-scale
-    # training is not considered here but in the
-    # 'mmdet/models/detectors/yolox.py'.
-    dict(type='Resize', img_scale=img_scale, keep_ratio=True),
-    dict(
-        type='Pad',
-        pad_to_square=True,
-        # If the image is three-channel, the pad value needs
-        # to be set separately for each channel.
-        pad_val=dict(img=(114.0, 114.0, 114.0))),
-    dict(type='FilterAnnotations', min_gt_bbox_wh=(1, 1), keep_empty=False),
+    dict(type='Normalize', **img_norm_cfg),
+    dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
+
+img_scale=(1024,1024)
+# train_pipeline = [
+#     dict(type='Mosaic', img_scale=img_scale, pad_val=114.0),
+#     dict(
+#         type='RandomAffine',
+#         scaling_ratio_range=(0.1, 2),
+#         border=(-img_scale[0] // 2, -img_scale[1] // 2)),
+#     dict(
+#         type='MixUp',
+#         img_scale=img_scale,
+#         ratio_range=(0.8, 1.6),
+#         pad_val=114.0),
+#     dict(type='YOLOXHSVRandomAug'),
+#     dict(type='RandomFlip', flip_ratio=0.5),
+#     # According to the official implementation, multi-scale
+#     # training is not considered here but in the
+#     # 'mmdet/models/detectors/yolox.py'.
+#     dict(type='Resize', img_scale=img_scale, keep_ratio=True),
+#     dict(
+#         type='Pad',
+#         pad_to_square=True,
+#         # If the image is three-channel, the pad value needs
+#         # to be set separately for each channel.
+#         pad_val=dict(img=(114.0, 114.0, 114.0))),
+#     dict(type='FilterAnnotations', min_gt_bbox_wh=(1, 1), keep_empty=False),
+#     dict(type='DefaultFormatBundle'),
+#     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+# ]
 
 
 test_pipeline = [
