@@ -3,6 +3,7 @@ _base_ = [
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
+from mmrotate.datasets import ISPRSAIRDataset
 
 angle_version = 'le90'
 model = dict(
