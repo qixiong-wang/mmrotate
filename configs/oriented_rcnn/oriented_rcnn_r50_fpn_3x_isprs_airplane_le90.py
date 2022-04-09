@@ -143,6 +143,7 @@ img_norm_cfg = dict(
 #     dict(type='DefaultFormatBundle'),
 #     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 # ]
+
 img_scale=(1024,1024)
 train_pipeline = [
     dict(type='Mosaic', img_scale=img_scale, pad_val=114.0),
