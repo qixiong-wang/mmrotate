@@ -3,7 +3,6 @@ _base_ = [
     '../_base_/schedules/schedule_3x.py',
     '../_base_/default_runtime.py'
 ]
-from mmrotate.datasets import ISPRSAIRDataset
 
 angle_version = 'le90'
 model = dict(
@@ -198,7 +197,8 @@ dataset_type = 'ISPRSAIRDataset'
 
 train_dataset = dict(
     type='MultiImageMixDataset',
-    dataset=ISPRSAIRDataset(
+    dataset=dict(
+        type=dataset_type,
         ann_file=data_root + 'train/annfiles/',
         img_prefix=data_root + 'train/images/',
         pipeline=[
@@ -213,6 +213,7 @@ train_dataset = dict(
 data = dict(
     samples_per_gpu=6,
     workers_per_gpu=6,
+    persistent_workers=True,
     train=train_dataset,
     val=dict(
         type=dataset_type,
