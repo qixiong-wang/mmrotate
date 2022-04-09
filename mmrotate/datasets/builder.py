@@ -1,5 +1,6 @@
 # Copyright (c) OpenMMLab. All rights reserved.
 import platform
+import copy
 
 from mmcv.utils import build_from_cfg
 from mmdet.datasets import DATASETS, PIPELINES
