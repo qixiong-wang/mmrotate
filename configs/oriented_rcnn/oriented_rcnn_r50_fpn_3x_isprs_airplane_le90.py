@@ -205,6 +205,9 @@ train_dataset = dict(
             dict(type='LoadAnnotations', with_bbox=True)
         ],
         filter_empty_gt=False,
+        CLASSES = ('Boeing737', 'Boeing747', 'Boeing777', 'Boeing787', 
+                'ARJ21', 'C919', 'A220', 'A321', 'A330', 'A350', 
+                'other-airplane')
     ),
     pipeline=train_pipeline)
 
