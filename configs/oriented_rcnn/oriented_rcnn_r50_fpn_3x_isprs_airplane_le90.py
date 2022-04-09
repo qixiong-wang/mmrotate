@@ -197,13 +197,13 @@ train_dataset = dict(
     type='MultiImageMixDataset',
     dataset=dict(
         type=dataset_type,
-        # ann_file=data_root + 'train/annfiles/',
-        # img_prefix=data_root + 'train/images/',
-        # pipeline=[
-        #     dict(type='LoadImageFromFile'),
-        #     dict(type='LoadAnnotations', with_bbox=True)
-        # ],
-        # filter_empty_gt=False,
+        ann_file=data_root + 'train/annfiles/',
+        img_prefix=data_root + 'train/images/',
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True)
+        ],
+        filter_empty_gt=False,
     ),
     pipeline=train_pipeline)
 
