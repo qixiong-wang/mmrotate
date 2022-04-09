@@ -67,6 +67,7 @@ train_dataset = dict(
     ),
     pipeline=train_pipeline)
 
+
 test_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(

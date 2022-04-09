@@ -161,14 +161,24 @@ data_root = '/data/wangqx/FAIR1M/split_ms/'
 dataset_type = 'ISPRSAIRDataset'
 
 
-data = dict(
-    samples_per_gpu=6,
-    workers_per_gpu=6,
-    train=dict(
+train_dataset = dict(
+    type='MultiImageMixDataset',
+    dataset=dict(
         type=dataset_type,
         ann_file=data_root + 'train/annfiles/',
         img_prefix=data_root + 'train/images/',
-        pipeline=train_pipeline),
+        pipeline=[
+            dict(type='LoadImageFromFile'),
+            dict(type='LoadAnnotations', with_bbox=True)
+        ],
+        filter_empty_gt=False,
+    ),
+    pipeline=train_pipeline)
+
+data = dict(
+    samples_per_gpu=6,
+    workers_per_gpu=6,
+    train=train_dataset,
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'train/annfiles/',
