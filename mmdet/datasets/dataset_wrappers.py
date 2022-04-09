@@ -360,6 +360,8 @@ class MultiImageMixDataset:
                  pipeline,
                  dynamic_scale=None,
                  skip_type_keys=None):
+        import pdb
+        pdb.set_trace()
         if dynamic_scale is not None:
             raise RuntimeError(
                 'dynamic_scale is deprecated. Please use Resize pipeline '
