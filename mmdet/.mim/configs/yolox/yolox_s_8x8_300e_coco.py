@@ -1,5 +1,7 @@
 _base_ = ['../_base_/schedules/schedule_1x.py', '../_base_/default_runtime.py']
 
+from mmrotate.datasets import ISPRSAIRDataset
+
 img_scale = (640, 640)  # height, width
 
 # model settings
@@ -55,7 +57,9 @@ train_pipeline = [
 
 train_dataset = dict(
     type='MultiImageMixDataset',
-    dataset=dict(
+    dataset=
+    
+    dict(
         type=dataset_type,
         ann_file=data_root + 'annotations/instances_train2017.json',
         img_prefix=data_root + 'train2017/',
