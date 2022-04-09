@@ -10,6 +10,8 @@ from torch.utils.data import Sampler
 class GroupSampler(Sampler):
 
     def __init__(self, dataset, samples_per_gpu=1):
+        import pdb
+        pdb.set_trace()
         assert hasattr(dataset, 'flag')
         self.dataset = dataset
         self.samples_per_gpu = samples_per_gpu
