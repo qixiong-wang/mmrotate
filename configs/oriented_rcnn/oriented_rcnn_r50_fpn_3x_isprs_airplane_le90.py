@@ -135,10 +135,10 @@ train_pipeline = [
         flip_ratio=[0.25, 0.25, 0.25],
         direction=['horizontal', 'vertical', 'diagonal'],
         version=angle_version),
-    dict(
-        type='MixUp',
-        ratio_range=(0.8, 1.6),
-        pad_val=114.0),
+    # dict(
+    #     type='MixUp',
+    #     ratio_range=(0.8, 1.6),
+    #     pad_val=114.0),
     dict(type='Normalize', **img_norm_cfg),
     dict(type='Pad', size_divisor=32),
     dict(type='DefaultFormatBundle'),
