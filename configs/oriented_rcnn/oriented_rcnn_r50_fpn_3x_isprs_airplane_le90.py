@@ -224,4 +224,4 @@ data = dict(
 
 
 optimizer = dict(lr=0.02)
-work_dir = 'work_dirs/ISPRS_airplane_mixup'
+work_dir = 'work_dirs/ISPRS_airplane_classbalance'
