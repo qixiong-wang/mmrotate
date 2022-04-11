@@ -16,8 +16,8 @@ model = dict(
         norm_eval=True,
         style='pytorch',
         init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50'),
-        dcn=dict(type='DCNv2', deformable_groups=1, fallback_on_stride=False),
-        stage_with_dcn=(False, True, True, True),
+        # dcn=dict(type='DCNv2', deformable_groups=1, fallback_on_stride=False),
+        # stage_with_dcn=(False, True, True, True),
         ),
 
     neck=dict(
@@ -164,11 +164,18 @@ dataset_type = 'ISPRSDataset'
 data = dict(
     samples_per_gpu=6,
     workers_per_gpu=6,
+    persistent_workers=True,
     train=dict(
-        type=dataset_type,
-        ann_file=data_root + 'train/annfiles/',
-        img_prefix=data_root + 'train/images/',
-        pipeline=train_pipeline),
+        _delete_=True,
+        type='ClassBalancedDataset',
+        oversample_thr=0.0999,
+        dataset=dict(
+            type=dataset_type,
+            ann_file=data_root + 'train/annfiles/',
+            img_prefix=data_root + 'train/images/',
+            pipeline=train_pipeline,
+        ),
+        ),
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'train/annfiles/',
@@ -183,4 +190,4 @@ data = dict(
 
 
 optimizer = dict(lr=0.02)
-work_dir = 'work_dirs/ISPRS_dcn'
+work_dir = 'work_dirs/ISPRS_clsbalance'
