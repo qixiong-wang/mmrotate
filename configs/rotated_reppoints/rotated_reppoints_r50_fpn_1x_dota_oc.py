@@ -155,4 +155,4 @@ data = dict(
 
 
 optimizer = dict(lr=0.02)
-work_dir = 'reppoint_dotatoolkit'
+work_dir = 'work_dirs/reppoint_dota'
