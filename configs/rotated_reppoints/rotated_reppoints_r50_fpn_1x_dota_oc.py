@@ -106,6 +106,7 @@ train_pipeline = [
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
+
 test_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(

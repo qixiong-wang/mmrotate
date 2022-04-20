@@ -719,6 +719,8 @@ class RotatedRepPointsHead(BaseDenseHead):
                 -1, pts_coordinate_preds_refine[0].size(-1))
             labels = torch.cat(labels_list, 0).view(-1)
             labels_weight = torch.cat(label_weights_list, 0).view(-1)
+            import pdb
+            pdb.set_trace()
             rbbox_gt_refine = torch.cat(rbbox_gt_list_refine, 0).view(
                 -1, rbbox_gt_list_refine[0].size(-1))
             convex_weights_refine = torch.cat(convex_weights_list_refine,
