@@ -56,6 +56,7 @@ class OrientedStandardRoIHead(RotatedStandardRoIHead):
                     proposal_list[i],
                     gt_bboxes[i],
                     gt_labels[i],
+                    feats=[lvl_feat[i][None] for lvl_feat in x])
 
                 if gt_bboxes[i].numel() == 0:
                     sampling_result.pos_gt_bboxes = gt_bboxes[i].new(
