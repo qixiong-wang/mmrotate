@@ -611,8 +611,7 @@ class RotatedRepPointsHead(BaseDenseHead):
              img_metas,
              gt_bboxes_ignore=None):
         """Loss function of CFA head."""
-        import pdb
-        pdb.set_trace()
+
         featmap_sizes = [featmap.size()[-2:] for featmap in cls_scores]
         assert len(featmap_sizes) == self.prior_generator.num_levels
         label_channels = self.cls_out_channels if self.use_sigmoid_cls else 1
@@ -663,6 +662,8 @@ class RotatedRepPointsHead(BaseDenseHead):
                     points_center +
                     points_shift[i_img].reshape(-1, 2 * self.num_points))
             points_list.append(points)
+        import pdb
+        pdb.set_trace()
         if self.use_reassign:
             cls_reg_targets_refine = self.get_cfa_targets(
                 points_list,
@@ -784,8 +785,7 @@ class RotatedRepPointsHead(BaseDenseHead):
             num_total_samples_refine = (
                 num_total_pos_refine + num_total_neg_refine
                 if self.sampling else num_total_pos_refine)
-            import pdb
-            pdb.set_trace()
+
             losses_cls, losses_pts_init, losses_pts_refine = multi_apply(
                 self.loss_single,
                 cls_scores,
