@@ -363,8 +363,7 @@ class RotatedRepPointsHead(BaseDenseHead):
                                   inside_flags)
             proposals_weights = unmap(proposals_weights, num_total_proposals,
                                       inside_flags)
-        import pdb
-        pdb.set_trace()
+
         return (labels, label_weights, bbox_gt, pos_proposals,
                 proposals_weights, pos_inds, neg_inds, sampling_result)
 
@@ -431,7 +430,7 @@ class RotatedRepPointsHead(BaseDenseHead):
             gt_bboxes_ignore_list = [None for _ in range(num_imgs)]
         if gt_labels_list is None:
             gt_labels_list = [None for _ in range(num_imgs)]
-        all_overlaps_rotate_list = [None] * 4
+        all_overlaps_rotate_list = [None] * len(proposals_list)
         (all_labels, all_label_weights, all_bbox_gt, all_proposals,
          all_proposal_weights, pos_inds_list, neg_inds_list,
          sampling_result) = multi_apply(
@@ -450,8 +449,7 @@ class RotatedRepPointsHead(BaseDenseHead):
         # sampled points of all images
         num_total_pos = sum([max(inds.numel(), 1) for inds in pos_inds_list])
         num_total_neg = sum([max(inds.numel(), 1) for inds in neg_inds_list])
-        import pdb
-        pdb.set_trace()
+
         labels_list = images_to_levels(all_labels, num_level_proposals)
         label_weights_list = images_to_levels(all_label_weights,
                                               num_level_proposals)
@@ -522,7 +520,7 @@ class RotatedRepPointsHead(BaseDenseHead):
             gt_bboxes_ignore_list = [None for _ in range(num_imgs)]
         if gt_labels_list is None:
             gt_labels_list = [None for _ in range(num_imgs)]
-        all_overlaps_rotate_list = [None] * 4
+        all_overlaps_rotate_list = [None] * len(proposals_list)
         (all_labels, all_label_weights, all_bbox_gt, all_proposals,
          all_proposal_weights, pos_inds_list, neg_inds_list,
          sampling_result) = multi_apply(
