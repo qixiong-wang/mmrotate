@@ -449,6 +449,8 @@ class RotatedRepPointsHead(BaseDenseHead):
         # sampled points of all images
         num_total_pos = sum([max(inds.numel(), 1) for inds in pos_inds_list])
         num_total_neg = sum([max(inds.numel(), 1) for inds in neg_inds_list])
+        import pdb
+        pdb.set_trace()
         labels_list = images_to_levels(all_labels, num_level_proposals)
         label_weights_list = images_to_levels(all_label_weights,
                                               num_level_proposals)
