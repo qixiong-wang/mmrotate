@@ -50,16 +50,13 @@ class OrientedStandardRoIHead(RotatedStandardRoIHead):
                 assign_result = self.bbox_assigner.assign(
                     proposal_list[i], gt_bboxes[i], gt_bboxes_ignore[i],
                     gt_labels[i])
-                import pdb
-                pdb.set_trace()
+
                 sampling_result = self.bbox_sampler.sample(
                     assign_result,
                     proposal_list[i],
                     gt_bboxes[i],
                     gt_labels[i],
-                    feats=[lvl_feat[i][None] for lvl_feat in x])
-                import pdb
-                pdb.set_trace()
+
                 if gt_bboxes[i].numel() == 0:
                     sampling_result.pos_gt_bboxes = gt_bboxes[i].new(
                         (0, gt_bboxes[0].size(-1))).zero_()
@@ -71,6 +68,8 @@ class OrientedStandardRoIHead(RotatedStandardRoIHead):
 
         losses = dict()
         # bbox head forward and loss
+        import pdb
+        pdb.set_trace()
         if self.with_bbox:
             bbox_results = self._bbox_forward_train(x, sampling_results,
                                                     gt_bboxes, gt_labels,
