@@ -611,7 +611,8 @@ class RotatedRepPointsHead(BaseDenseHead):
              img_metas,
              gt_bboxes_ignore=None):
         """Loss function of CFA head."""
-
+        import pdb
+        pdb.set_trace()
         featmap_sizes = [featmap.size()[-2:] for featmap in cls_scores]
         assert len(featmap_sizes) == self.prior_generator.num_levels
         label_channels = self.cls_out_channels if self.use_sigmoid_cls else 1
