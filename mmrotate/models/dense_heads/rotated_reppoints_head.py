@@ -746,8 +746,7 @@ class RotatedRepPointsHead(BaseDenseHead):
                 losses_cls = cls_scores.sum() * 0
                 losses_pts_refine = pts_preds_refine.sum() * 0
             None_list = [None] * num_level
-            import pdb
-            pdb.set_trace()
+
             _, losses_pts_init, _ = multi_apply(
                 self.loss_single,
                 None_list,
@@ -785,7 +784,8 @@ class RotatedRepPointsHead(BaseDenseHead):
             num_total_samples_refine = (
                 num_total_pos_refine + num_total_neg_refine
                 if self.sampling else num_total_pos_refine)
-
+            import pdb
+            pdb.set_trace()
             losses_cls, losses_pts_init, losses_pts_refine = multi_apply(
                 self.loss_single,
                 cls_scores,
@@ -799,6 +799,7 @@ class RotatedRepPointsHead(BaseDenseHead):
                 convex_weights_list_refine,
                 self.point_strides,
                 num_total_samples_refine=num_total_samples_refine)
+            
             loss_dict_all = {
                 'loss_cls': losses_cls,
                 'loss_pts_init': losses_pts_init,
