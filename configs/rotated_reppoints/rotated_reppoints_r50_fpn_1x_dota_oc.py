@@ -3,6 +3,7 @@ _base_ = [
     '../_base_/default_runtime.py'
 ]
 
+
 angle_version = 'oc'
 norm_cfg = dict(type='GN', num_groups=32, requires_grad=True)
 model = dict(
@@ -76,6 +77,21 @@ model = dict(
 
 img_norm_cfg = dict(
     mean=[123.675, 116.28, 103.53], std=[58.395, 57.12, 57.375], to_rgb=True)
+# train_pipeline = [
+#     dict(type='LoadImageFromFile'),
+#     dict(type='LoadAnnotations', with_bbox=True),
+#     dict(type='RResize', img_scale=(1024, 1024)),
+#     dict(
+#         type='RRandomFlip',
+#         flip_ratio=[0.25, 0.25, 0.25],
+#         direction=['horizontal', 'vertical', 'diagonal'],
+#         version=angle_version),
+#     dict(type='Normalize', **img_norm_cfg),
+#     dict(type='Pad', size_divisor=32),
+#     dict(type='DefaultFormatBundle'),
+#     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
+# ]
+
 train_pipeline = [
     dict(type='LoadImageFromFile'),
     dict(type='LoadAnnotations', with_bbox=True),
@@ -90,8 +106,52 @@ train_pipeline = [
     dict(type='DefaultFormatBundle'),
     dict(type='Collect', keys=['img', 'gt_bboxes', 'gt_labels'])
 ]
-data = dict(
-    train=dict(pipeline=train_pipeline, version=angle_version),
-    val=dict(version=angle_version),
-    test=dict(version=angle_version))
+test_pipeline = [
+    dict(type='LoadImageFromFile'),
+    dict(
+        type='MultiScaleFlipAug',
+        img_scale=(1024, 1024),
+        flip=False,
+        transforms=[
+            dict(type='RResize'),
+            dict(type='Normalize', **img_norm_cfg),
+            dict(type='Pad', size_divisor=32),
+            dict(type='DefaultFormatBundle'),
+            dict(type='Collect', keys=['img'])
+        ])
+]
+
+# data = dict(
+#     train=dict(pipeline=train_pipeline, version=angle_version),
+#     val=dict(version=angle_version),
+#     test=dict(version=angle_version))
 optimizer = dict(lr=0.008)
+
+
+data_root = '/data/wangqx/DOTA1_0/split_ms_dota1_0/'
+dataset_type = 'DOTADataset'
+
+
+data = dict(
+    samples_per_gpu=8,
+    workers_per_gpu=8,
+    train=dict(
+        type=dataset_type,
+        ann_file=data_root + 'trainval/annfiles/',
+        img_prefix=data_root + 'trainval/images/',
+        pipeline=train_pipeline),
+    val=dict(
+        type=dataset_type,
+        ann_file=data_root + 'trainval/annfiles/',
+        img_prefix=data_root + 'trainval/images/',
+        pipeline=test_pipeline),
+    test=dict(
+        type=dataset_type,
+        ann_file=data_root + 'test/images/',
+        img_prefix=data_root + 'test/images/',
+        pipeline=test_pipeline)
+    )
+
+
+optimizer = dict(lr=0.02)
+work_dir = 'reppoint_dotatoolkit'
