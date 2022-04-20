@@ -363,7 +363,8 @@ class RotatedRepPointsHead(BaseDenseHead):
                                   inside_flags)
             proposals_weights = unmap(proposals_weights, num_total_proposals,
                                       inside_flags)
-
+        import pdb
+        pdb.set_trace()
         return (labels, label_weights, bbox_gt, pos_proposals,
                 proposals_weights, pos_inds, neg_inds, sampling_result)
 
