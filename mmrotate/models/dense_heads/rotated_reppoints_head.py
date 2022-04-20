@@ -1,4 +1,5 @@
 # Copyright (c) OpenMMLab. All rights reserved.
+from turtle import pd
 import numpy as np
 import torch
 import torch.nn as nn
@@ -665,109 +666,110 @@ class RotatedRepPointsHead(BaseDenseHead):
         import pdb
         pdb.set_trace()
         if self.use_reassign:
-            cls_reg_targets_refine = self.get_cfa_targets(
-                points_list,
-                valid_flag_list,
-                gt_bboxes,
-                img_metas,
-                gt_bboxes_ignore_list=gt_bboxes_ignore,
-                gt_labels_list=gt_labels,
-                stage='refine',
-                label_channels=label_channels)
-            (labels_list, label_weights_list, rbbox_gt_list_refine, _,
-             convex_weights_list_refine, pos_inds_list_refine,
-             pos_gt_index_list_refine) = cls_reg_targets_refine
-            cls_scores = levels_to_images(cls_scores)
-            cls_scores = [
-                item.reshape(-1, self.cls_out_channels) for item in cls_scores
-            ]
-            pts_coordinate_preds_init_cfa = levels_to_images(
-                pts_coordinate_preds_init, flatten=True)
-            pts_coordinate_preds_init_cfa = [
-                item.reshape(-1, 2 * self.num_points)
-                for item in pts_coordinate_preds_init_cfa
-            ]
-            pts_coordinate_preds_refine = levels_to_images(
-                pts_coordinate_preds_refine, flatten=True)
-            pts_coordinate_preds_refine = [
-                item.reshape(-1, 2 * self.num_points)
-                for item in pts_coordinate_preds_refine
-            ]
-            with torch.no_grad():
-                pos_losses_list, = multi_apply(
-                    self.get_pos_loss, cls_scores,
-                    pts_coordinate_preds_init_cfa, labels_list,
-                    rbbox_gt_list_refine, label_weights_list,
-                    convex_weights_list_refine, pos_inds_list_refine)
-                labels_list, label_weights_list, convex_weights_list_refine, \
-                    num_pos, pos_normalize_term = multi_apply(
-                        self.reassign,
-                        pos_losses_list,
-                        labels_list,
-                        label_weights_list,
-                        pts_coordinate_preds_init_cfa,
-                        convex_weights_list_refine,
-                        gt_bboxes,
-                        pos_inds_list_refine,
-                        pos_gt_index_list_refine,
-                        num_proposals_each_level=num_proposals_each_level,
-                        num_level=num_level
-                    )
-                num_pos = sum(num_pos)
-            # convert all tensor list to a flatten tensor
-            cls_scores = torch.cat(cls_scores, 0).view(-1,
-                                                       cls_scores[0].size(-1))
-            pts_preds_refine = torch.cat(pts_coordinate_preds_refine, 0).view(
-                -1, pts_coordinate_preds_refine[0].size(-1))
-            labels = torch.cat(labels_list, 0).view(-1)
-            labels_weight = torch.cat(label_weights_list, 0).view(-1)
+            # cls_reg_targets_refine = self.get_cfa_targets(
+            #     points_list,
+            #     valid_flag_list,
+            #     gt_bboxes,
+            #     img_metas,
+            #     gt_bboxes_ignore_list=gt_bboxes_ignore,
+            #     gt_labels_list=gt_labels,
+            #     stage='refine',
+            #     label_channels=label_channels)
+            # (labels_list, label_weights_list, rbbox_gt_list_refine, _,
+            #  convex_weights_list_refine, pos_inds_list_refine,
+            #  pos_gt_index_list_refine) = cls_reg_targets_refine
+            # cls_scores = levels_to_images(cls_scores)
+            # cls_scores = [
+            #     item.reshape(-1, self.cls_out_channels) for item in cls_scores
+            # ]
+            # pts_coordinate_preds_init_cfa = levels_to_images(
+            #     pts_coordinate_preds_init, flatten=True)
+            # pts_coordinate_preds_init_cfa = [
+            #     item.reshape(-1, 2 * self.num_points)
+            #     for item in pts_coordinate_preds_init_cfa
+            # ]
+            # pts_coordinate_preds_refine = levels_to_images(
+            #     pts_coordinate_preds_refine, flatten=True)
+            # pts_coordinate_preds_refine = [
+            #     item.reshape(-1, 2 * self.num_points)
+            #     for item in pts_coordinate_preds_refine
+            # ]
+            # with torch.no_grad():
+            #     pos_losses_list, = multi_apply(
+            #         self.get_pos_loss, cls_scores,
+            #         pts_coordinate_preds_init_cfa, labels_list,
+            #         rbbox_gt_list_refine, label_weights_list,
+            #         convex_weights_list_refine, pos_inds_list_refine)
+            #     labels_list, label_weights_list, convex_weights_list_refine, \
+            #         num_pos, pos_normalize_term = multi_apply(
+            #             self.reassign,
+            #             pos_losses_list,
+            #             labels_list,
+            #             label_weights_list,
+            #             pts_coordinate_preds_init_cfa,
+            #             convex_weights_list_refine,
+            #             gt_bboxes,
+            #             pos_inds_list_refine,
+            #             pos_gt_index_list_refine,
+            #             num_proposals_each_level=num_proposals_each_level,
+            #             num_level=num_level
+            #         )
+            #     num_pos = sum(num_pos)
+            # # convert all tensor list to a flatten tensor
+            # cls_scores = torch.cat(cls_scores, 0).view(-1,
+            #                                            cls_scores[0].size(-1))
+            # pts_preds_refine = torch.cat(pts_coordinate_preds_refine, 0).view(
+            #     -1, pts_coordinate_preds_refine[0].size(-1))
+            # labels = torch.cat(labels_list, 0).view(-1)
+            # labels_weight = torch.cat(label_weights_list, 0).view(-1)
 
 
-            rbbox_gt_refine = torch.cat(rbbox_gt_list_refine, 0).view(
-                -1, rbbox_gt_list_refine[0].size(-1))
-            convex_weights_refine = torch.cat(convex_weights_list_refine,
-                                              0).view(-1)
-            pos_normalize_term = torch.cat(pos_normalize_term, 0).reshape(-1)
-            pos_inds_flatten = ((0 <= labels) &
-                                (labels < self.num_classes)).nonzero(
-                                    as_tuple=False).reshape(-1)
-            assert len(pos_normalize_term) == len(pos_inds_flatten)
-            if num_pos:
-                losses_cls = self.loss_cls(
-                    cls_scores, labels, labels_weight, avg_factor=num_pos)
-                pos_pts_pred_refine = pts_preds_refine[pos_inds_flatten]
-                pos_rbbox_gt_refine = rbbox_gt_refine[pos_inds_flatten]
-                pos_convex_weights_refine = convex_weights_refine[
-                    pos_inds_flatten]
-                losses_pts_refine = self.loss_bbox_refine(
-                    pos_pts_pred_refine / pos_normalize_term.reshape(-1, 1),
-                    pos_rbbox_gt_refine / pos_normalize_term.reshape(-1, 1),
-                    pos_convex_weights_refine)
-            else:
-                losses_cls = cls_scores.sum() * 0
-                losses_pts_refine = pts_preds_refine.sum() * 0
-            None_list = [None] * num_level
+            # rbbox_gt_refine = torch.cat(rbbox_gt_list_refine, 0).view(
+            #     -1, rbbox_gt_list_refine[0].size(-1))
+            # convex_weights_refine = torch.cat(convex_weights_list_refine,
+            #                                   0).view(-1)
+            # pos_normalize_term = torch.cat(pos_normalize_term, 0).reshape(-1)
+            # pos_inds_flatten = ((0 <= labels) &
+            #                     (labels < self.num_classes)).nonzero(
+            #                         as_tuple=False).reshape(-1)
+            # assert len(pos_normalize_term) == len(pos_inds_flatten)
+            # if num_pos:
+            #     losses_cls = self.loss_cls(
+            #         cls_scores, labels, labels_weight, avg_factor=num_pos)
+            #     pos_pts_pred_refine = pts_preds_refine[pos_inds_flatten]
+            #     pos_rbbox_gt_refine = rbbox_gt_refine[pos_inds_flatten]
+            #     pos_convex_weights_refine = convex_weights_refine[
+            #         pos_inds_flatten]
+            #     losses_pts_refine = self.loss_bbox_refine(
+            #         pos_pts_pred_refine / pos_normalize_term.reshape(-1, 1),
+            #         pos_rbbox_gt_refine / pos_normalize_term.reshape(-1, 1),
+            #         pos_convex_weights_refine)
+            # else:
+            #     losses_cls = cls_scores.sum() * 0
+            #     losses_pts_refine = pts_preds_refine.sum() * 0
+            # None_list = [None] * num_level
 
-            _, losses_pts_init, _ = multi_apply(
-                self.loss_single,
-                None_list,
-                pts_coordinate_preds_init,
-                None_list,
-                None_list,
-                None_list,
-                rbbox_gt_list_init,
-                convex_weights_list_init,
-                None_list,
-                None_list,
-                self.point_strides,
-                num_total_samples_refine=None,
-            )
-            loss_dict_all = {
-                'loss_cls': losses_cls,
-                'loss_pts_init': losses_pts_init,
-                'loss_pts_refine': losses_pts_refine
-            }
-            return loss_dict_all
+            # _, losses_pts_init, _ = multi_apply(
+            #     self.loss_single,
+            #     None_list,
+            #     pts_coordinate_preds_init,
+            #     None_list,
+            #     None_list,
+            #     None_list,
+            #     rbbox_gt_list_init,
+            #     convex_weights_list_init,
+            #     None_list,
+            #     None_list,
+            #     self.point_strides,
+            #     num_total_samples_refine=None,
+            # )
+            # loss_dict_all = {
+            #     'loss_cls': losses_cls,
+            #     'loss_pts_init': losses_pts_init,
+            #     'loss_pts_refine': losses_pts_refine
+            # }
+            # return loss_dict_all
+            pass
         else:
             cls_reg_targets_refine = self.get_targets(
                 points_list,
@@ -782,6 +784,8 @@ class RotatedRepPointsHead(BaseDenseHead):
              candidate_list_refine, convex_weights_list_refine,
              num_total_pos_refine, num_total_neg_refine,
              _) = cls_reg_targets_refine
+            import pdb
+            pdb.set_trace()
             num_total_samples_refine = (
                 num_total_pos_refine + num_total_neg_refine
                 if self.sampling else num_total_pos_refine)
