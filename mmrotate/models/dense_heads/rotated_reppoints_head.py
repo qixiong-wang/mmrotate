@@ -595,8 +595,7 @@ class RotatedRepPointsHead(BaseDenseHead):
             label_weights = label_weights.reshape(-1)
             cls_score = cls_score.permute(0, 2, 3,
                                           1).reshape(-1, self.cls_out_channels)
-            import pdb
-            pdb.set_trace()
+
             loss_cls = self.loss_cls(
                 cls_score,
                 labels,
@@ -664,8 +663,7 @@ class RotatedRepPointsHead(BaseDenseHead):
                     points_center +
                     points_shift[i_img].reshape(-1, 2 * self.num_points))
             points_list.append(points)
-        import pdb
-        pdb.set_trace()
+
         if self.use_reassign:
             # cls_reg_targets_refine = self.get_cfa_targets(
             #     points_list,
@@ -785,8 +783,7 @@ class RotatedRepPointsHead(BaseDenseHead):
              candidate_list_refine, convex_weights_list_refine,
              num_total_pos_refine, num_total_neg_refine,
              _) = cls_reg_targets_refine
-            import pdb
-            pdb.set_trace()
+
             num_total_samples_refine = (
                 num_total_pos_refine + num_total_neg_refine
                 if self.sampling else num_total_pos_refine)
