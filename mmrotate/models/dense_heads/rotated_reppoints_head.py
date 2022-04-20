@@ -593,6 +593,8 @@ class RotatedRepPointsHead(BaseDenseHead):
             label_weights = label_weights.reshape(-1)
             cls_score = cls_score.permute(0, 2, 3,
                                           1).reshape(-1, self.cls_out_channels)
+            import pdb
+            pdb.set_trace()
             loss_cls = self.loss_cls(
                 cls_score,
                 labels,
