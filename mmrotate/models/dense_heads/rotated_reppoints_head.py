@@ -1163,10 +1163,12 @@ class RotatedRepPointsHead(BaseDenseHead):
         mlvl_bboxes = torch.cat(mlvl_bboxes)
 
         if rescale:
-            import pdb
-            pdb.set_trace()
-            mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(
-                scale_factor)
+            try:
+                mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(
+                    scale_factor)
+            except:
+                import pdb
+                pdb.set_trace()
         mlvl_scores = torch.cat(mlvl_scores)
         if self.use_sigmoid_cls:
             padding = mlvl_scores.new_zeros(mlvl_scores.shape[0], 1)
