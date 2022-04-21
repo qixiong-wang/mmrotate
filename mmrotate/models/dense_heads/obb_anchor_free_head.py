@@ -5,9 +5,10 @@ import torch.nn as nn
 from mmcv.cnn import ConvModule, bias_init_with_prob, normal_init
 from mmcv.runner import force_fp32
 from mmdet.core import multi_apply, get_bbox_dim
+
 from mmdet.models.builder import HEADS, build_loss
 from mmdet.models.dense_heads.base_dense_head import BaseDenseHead
-
+from mmrotate.core import get
 
 @HEADS.register_module()
 class OBBAnchorFreeHead(BaseDenseHead):
