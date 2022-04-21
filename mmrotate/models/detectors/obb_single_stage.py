@@ -28,25 +28,8 @@ class OBBSingleStageDetector(RotatedBaseDetector):
         self.bbox_head = build_head(bbox_head)
         self.train_cfg = train_cfg
         self.test_cfg = test_cfg
-        self.init_weights(pretrained=pretrained)
 
-    def init_weights(self, pretrained=None):
-        """Initialize the weights in detector
-        Args:
-            pretrained (str, optional): Path to pre-trained weights.
-                Defaults to None.
-        """
-        import pdb
-        pdb.set_trace()
-        super(OBBSingleStageDetector, self).init_weights(pretrained)
-        self.backbone.init_weights(pretrained=pretrained)
-        if self.with_neck:
-            if isinstance(self.neck, nn.Sequential):
-                for m in self.neck:
-                    m.init_weights()
-            else:
-                self.neck.init_weights()
-        self.bbox_head.init_weights()
+
 
     def extract_feat(self, img):
         """Directly extract features from the backbone+neck
