@@ -3,9 +3,9 @@ import torch.nn as nn
 import torch.nn.functional as F
 from mmcv.cnn import Scale, normal_init
 
-from mmdet.core import (distance2obb, force_fp32, multi_apply, multiclass_arb_nms,
-                        mintheta_obb)
+from mmdet.core import  multi_apply
 
+from mmrotate.core import distance2obb,multiclass_nms_rotated,mintheta_obb
 from mmdet.models.builder import HEADS, build_loss
 from .obb_anchor_free_head import OBBAnchorFreeHead
 
@@ -393,7 +393,15 @@ class OBBFCOSHead(OBBAnchorFreeHead):
         # BG cat_id: num_class
         mlvl_scores = torch.cat([mlvl_scores, padding], dim=1)
         mlvl_centerness = torch.cat(mlvl_centerness)
-        det_bboxes, det_labels = multiclass_arb_nms(
+        # det_bboxes, det_labels = multiclass_arb_nms(
+        #     mlvl_bboxes,
+        #     mlvl_scores,
+        #     cfg.score_thr,
+        #     cfg.nms,
+        #     cfg.max_per_img,
+        #     score_factors=mlvl_centerness,
+        #     bbox_type='obb')
+        det_bboxes, det_labels = multiclass_nms_rotated(
             mlvl_bboxes,
             mlvl_scores,
             cfg.score_thr,
