@@ -1166,7 +1166,8 @@ class RotatedRepPointsHead(BaseDenseHead):
 
         mlvl_bboxes = torch.cat(mlvl_bboxes)
 
-
+        import pdb
+        pdb.set_trace()
         if rescale:
             try:
                 mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(scale_factor)
