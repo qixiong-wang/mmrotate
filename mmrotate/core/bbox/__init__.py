@@ -21,5 +21,5 @@ __all__ = [
     'GVRatioCoder', 'ConvexAssigner', 'MaxConvexIoUAssigner', 'SASAssigner',
     'ATSSKldAssigner', 'gaussian2bbox', 'gt2gaussian', 'GaussianMixture',
     'build_assigner', 'build_bbox_coder', 'build_sampler', 'bbox_mapping_back',
-    'distance2obb','mintheta_obb', 'get_bbox_dim',
+    'distance2obb','mintheta_obb','get_bbox_dim',
 ]
