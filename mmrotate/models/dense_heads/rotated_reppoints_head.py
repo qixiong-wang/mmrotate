@@ -209,7 +209,8 @@ class RotatedRepPointsHead(BaseDenseHead):
             pts = torch.cat([pts_dx, pts_dy],
                             dim=2).reshape(-1, 2 * self.num_points)
         if self.transform_method == 'rotrect':
-
+            import pdb
+            pdb.set_trace()
             rotrect_pred = min_area_polygons(pts)
             return rotrect_pred
         else:
@@ -1156,9 +1157,8 @@ class RotatedRepPointsHead(BaseDenseHead):
                 points = points[topk_inds, :]
                 points_pred = points_pred[topk_inds, :]
                 scores = scores[topk_inds, :]
-            import pdb  
-            pdb.set_trace()
-            poly_pred = self.points2rotrect(points_pred, y_first=True)
+            if level_idx==4:
+                poly_pred = self.points2rotrect(points_pred, y_first=True)
             bbox_pos_center = points[:, :2].repeat(1, 4)
             polys = poly_pred * self.point_strides[level_idx] + bbox_pos_center
             bboxes = poly2obb(polys, self.version)
