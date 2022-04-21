@@ -1,9 +1,9 @@
 from mmdet.models.builder import DETECTORS
-from .obb_single_stage import OBBSingleStageDetector
+from .single_stage import RotatedSingleStageDetector
 
 
 @DETECTORS.register_module()
-class FCOSOBB(OBBSingleStageDetector):
+class FCOSOBB(RotatedSingleStageDetector):
     """Implementation of `FCOS <https://arxiv.org/abs/1904.01355>`_"""
 
     def __init__(self,
