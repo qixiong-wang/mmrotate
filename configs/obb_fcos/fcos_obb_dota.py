@@ -6,7 +6,6 @@ _base_ = [
 # model settings
 model = dict(
     type='FCOSOBB',
-    pretrained='open-mmlab://detectron/resnet50_caffe',
     backbone=dict(
         type='ResNet',
         depth=50,
@@ -15,7 +14,8 @@ model = dict(
         frozen_stages=1,
         norm_cfg=dict(type='BN', requires_grad=False),
         norm_eval=True,
-        style='caffe'),
+        style='caffe',
+        init_cfg=dict(type='Pretrained', checkpoint='torchvision://resnet50')),
     neck=dict(
         type='FPN',
         in_channels=[256, 512, 1024, 2048],
