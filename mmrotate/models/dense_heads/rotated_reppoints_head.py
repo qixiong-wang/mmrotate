@@ -209,8 +209,7 @@ class RotatedRepPointsHead(BaseDenseHead):
             pts = torch.cat([pts_dx, pts_dy],
                             dim=2).reshape(-1, 2 * self.num_points)
         if self.transform_method == 'rotrect':
-            import pdb
-            pdb.set_trace()
+
             rotrect_pred = min_area_polygons(pts)
             return rotrect_pred
         else:
@@ -1163,14 +1162,12 @@ class RotatedRepPointsHead(BaseDenseHead):
             mlvl_scores.append(scores)
 
         mlvl_bboxes = torch.cat(mlvl_bboxes)
-        import pdb
-        pdb.set_trace()
-        if rescale:
-            try:
-                mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(scale_factor)
-            except:
-                import pdb
-                pdb.set_trace()
+        # if rescale:
+        #     try:
+        #         mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(scale_factor)
+        #     except:
+        #         import pdb
+        #         pdb.set_trace()
         mlvl_scores = torch.cat(mlvl_scores)
         if self.use_sigmoid_cls:
             padding = mlvl_scores.new_zeros(mlvl_scores.shape[0], 1)
