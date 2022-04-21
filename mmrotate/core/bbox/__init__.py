@@ -1,6 +1,5 @@
 # Copyright (c) OpenMMLab. All rights reserved.
-from .assigners import (ATSSKldAssigner, ConvexAssigner, MaxConvexIoUAssigner,
-                        SASAssigner)
+from .assigners import (ATSSKldAssigner, ConvexAssigner, MaxConvexIoUAssigner,SASAssigner)
 from .builder import build_assigner, build_bbox_coder, build_sampler
 from .coder import (DeltaXYWHAHBBoxCoder, DeltaXYWHAOBBoxCoder, GVFixCoder,
                     GVRatioCoder, MidpointOffsetCoder)

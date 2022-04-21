@@ -984,6 +984,7 @@ def regular_obb(obboxes):
     theta_regular = regular_theta(theta_regular)
     return torch.stack([x, y, w_regular, h_regular, theta_regular], dim=-1)
 
+
 def get_bbox_dim(bbox_type, with_score=False):
     if bbox_type == 'hbb':
         dim = 4
@@ -993,8 +994,6 @@ def get_bbox_dim(bbox_type, with_score=False):
         dim = 8
     else:
         raise ValueError(f"don't know {bbox_type} bbox dim")
-
     if with_score:
         dim += 1
     return dim
- 
