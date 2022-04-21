@@ -1070,13 +1070,10 @@ class RotatedRepPointsHead(BaseDenseHead):
             img_meta = img_metas[img_id]
             cls_score_list = select_single_mlvl(cls_scores, img_id)
             point_pred_list = select_single_mlvl(pts_preds_refine, img_id)
-            try:
-                results = self._get_bboxes_single(cls_score_list, point_pred_list,
-                                                mlvl_priors, img_meta, cfg,
-                                                rescale, with_nms, **kwargs)
-            except:
-                import pdb
-                pdb.set_trace()
+            results = self._get_bboxes_single(cls_score_list, point_pred_list,
+                                            mlvl_priors, img_meta, cfg,
+                                            rescale, with_nms, **kwargs)
+
             result_list.append(results)
 
         return result_list
@@ -1170,11 +1167,8 @@ class RotatedRepPointsHead(BaseDenseHead):
 
 
         if rescale:
-            try:
-                mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(scale_factor)
-            except:
-                import pdb
-                pdb.set_trace()
+            mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(scale_factor)
+
 
         mlvl_scores = torch.cat(mlvl_scores)
         if self.use_sigmoid_cls:
