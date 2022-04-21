@@ -13,5 +13,7 @@ class FCOSOBB(OBBSingleStageDetector):
                  train_cfg=None,
                  test_cfg=None,
                  pretrained=None):
+        import pdb
+        pdb.set_trace()
         super(FCOSOBB, self).__init__(backbone, neck, bbox_head, train_cfg,
                                       test_cfg, pretrained)
