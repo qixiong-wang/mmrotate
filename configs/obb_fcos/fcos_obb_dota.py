@@ -3,6 +3,7 @@ _base_ = [
     '../_base_/schedules/schedule_1x.py',
     '../_base_/default_runtime.py'
 ]
+angle_version = 'le90'
 # model settings
 model = dict(
     type='FCOSOBB',
