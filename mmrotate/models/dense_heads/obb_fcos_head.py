@@ -5,6 +5,7 @@ from mmcv.cnn import Scale, normal_init
 
 from mmdet.core import (distance2obb, force_fp32, multi_apply, multiclass_arb_nms,
                         mintheta_obb)
+
 from mmdet.models.builder import HEADS, build_loss
 from .obb_anchor_free_head import OBBAnchorFreeHead
 

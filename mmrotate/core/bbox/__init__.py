@@ -9,7 +9,8 @@ from .samplers import RRandomSampler
 from .transforms import (bbox_mapping_back, gaussian2bbox, gt2gaussian,
                          hbb2obb, norm_angle, obb2hbb, obb2poly, obb2poly_np,
                          obb2xyxy, poly2obb, poly2obb_np, rbbox2result,
-                         rbbox2roi)
+                         rbbox2roi, distance2obb, multiclass_arb_nms,mintheta_obb
+                         )
 from .utils import GaussianMixture
 
 __all__ = [
@@ -19,5 +20,6 @@ __all__ = [
     'DeltaXYWHAHBBoxCoder', 'MidpointOffsetCoder', 'GVFixCoder',
     'GVRatioCoder', 'ConvexAssigner', 'MaxConvexIoUAssigner', 'SASAssigner',
     'ATSSKldAssigner', 'gaussian2bbox', 'gt2gaussian', 'GaussianMixture',
-    'build_assigner', 'build_bbox_coder', 'build_sampler', 'bbox_mapping_back'
+    'build_assigner', 'build_bbox_coder', 'build_sampler', 'bbox_mapping_back',
+    'distance2obb', 'multiclass_arb_nms','mintheta_obb',
 ]

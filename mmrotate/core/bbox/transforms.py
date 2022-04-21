@@ -5,6 +5,8 @@ import cv2
 import numpy as np
 import torch
 
+pi = 3.141592
+
 
 def bbox_flip(bboxes, img_shape, direction='horizontal'):
     """Flip bboxes horizontally or vertically.
@@ -935,3 +937,50 @@ def gt2gaussian(target):
     R = torch.stack([cos_sin * neg, cos_sin[..., [1, 0]]], dim=-2)
 
     return (center, R.matmul(diag).matmul(R.transpose(-1, -2)))
+
+
+def regular_theta(theta, mode='180', start=-pi/2):
+    assert mode in ['360', '180']
+    cycle = 2 * pi if mode == '360' else pi
+
+    theta = theta - start
+    theta = theta % cycle
+    return theta + start
+
+def mintheta_obb(obboxes):
+    x, y, w, h, theta = obboxes.unbind(dim=-1)
+    theta1 = regular_theta(theta)
+    theta2 = regular_theta(theta + pi/2)
+    abs_theta1 = torch.abs(theta1)
+    abs_theta2 = torch.abs(theta2)
+
+    w_regular = torch.where(abs_theta1 < abs_theta2, w, h)
+    h_regular = torch.where(abs_theta1 < abs_theta2, h, w)
+    theta_regular = torch.where(abs_theta1 < abs_theta2, theta1, theta2)
+
+    obboxes = torch.stack([x, y, w_regular, h_regular, theta_regular], dim=-1)
+    return obboxes
+
+def distance2obb(points, distance, max_shape=None):
+    distance, theta = distance.split([4, 1], dim=1)
+
+    Cos, Sin = torch.cos(theta), torch.sin(theta)
+    Matrix = torch.cat([Cos, Sin, -Sin, Cos], dim=1).reshape(-1, 2, 2)
+
+    wh = distance[:, :2] + distance[:, 2:]
+    offset_t = (distance[:, 2:] - distance[:, :2]) / 2
+    offset_t = offset_t.unsqueeze(2)
+    offset = torch.bmm(Matrix, offset_t).squeeze(2)
+    ctr = points + offset
+
+    obbs = torch.cat([ctr, wh, theta], dim=1)
+    return regular_obb(obbs)
+
+def regular_obb(obboxes):
+    x, y, w, h, theta = obboxes.unbind(dim=-1)
+    w_regular = torch.where(w > h, w, h)
+    h_regular = torch.where(w > h, h, w)
+    theta_regular = torch.where(w > h, theta, theta+pi/2)
+    theta_regular = regular_theta(theta_regular)
+    return torch.stack([x, y, w_regular, h_regular, theta_regular], dim=-1)
+
