@@ -1,6 +1,6 @@
 import torch.nn as nn
 
-from mmdet.core import arb2result
+from mmrotate.core import arb2result
 from mmdet.models.builder import DETECTORS, build_backbone, build_head, build_neck
 from .obb_base import OBBBaseDetector
 
