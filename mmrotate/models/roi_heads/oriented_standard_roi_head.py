@@ -69,8 +69,7 @@ class OrientedStandardRoIHead(RotatedStandardRoIHead):
 
         losses = dict()
         # bbox head forward and loss
-        import pdb
-        pdb.set_trace()
+
         if self.with_bbox:
             bbox_results = self._bbox_forward_train(x, sampling_results, gt_bboxes, gt_labels, img_metas)
             losses.update(bbox_results['loss_bbox'])
@@ -95,8 +94,7 @@ class OrientedStandardRoIHead(RotatedStandardRoIHead):
             dict[str, Tensor]: a dictionary of bbox_results.
         """
         rois = rbbox2roi([res.bboxes for res in sampling_results])
-        import pdb
-        pdb.set_trace()
+
         bbox_results = self._bbox_forward(x, rois)
 
         bbox_targets = self.bbox_head.get_targets(sampling_results, gt_bboxes,

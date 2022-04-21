@@ -248,6 +248,7 @@ class OBBFCOSHead(OBBAnchorFreeHead):
             pos_decoded_target_preds = distance2obb(pos_points, pos_bbox_targets)
             gt_bboxes = [mintheta_obb(bboxes) for bboxes in gt_bboxes]
             # centerness weighted iou loss
+            
             loss_bbox = self.loss_bbox(
                 pos_decoded_bbox_preds,
                 pos_decoded_target_preds,
