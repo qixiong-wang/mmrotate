@@ -11,12 +11,12 @@ from .rotated_retina_head import RotatedRetinaHead
 from .rotated_retina_refine_head import RotatedRetinaRefineHead
 from .rotated_rpn_head import RotatedRPNHead
 from .sam_reppoints_head import SAMRepPointsHead
-from .obb_fcos_head import OBBAnchorFreeHead
+from .obb_fcos_head import OBBFCOSHead
 from .obb_anchor_free_head import OBBAnchorFreeHead
 
 __all__ = [
     'RotatedAnchorHead', 'RotatedRetinaHead', 'RotatedRPNHead',
     'OrientedRPNHead', 'RotatedRetinaRefineHead', 'ODMRefineHead',
     'KFIoURRetinaHead', 'KFIoURRetinaRefineHead', 'KFIoUODMRefineHead',
-    'RotatedRepPointsHead', 'SAMRepPointsHead', 'CSLRRetinaHead', 'OBBAnchorFreeHead', 'OBBAnchorFreeHead'
+    'RotatedRepPointsHead', 'SAMRepPointsHead', 'CSLRRetinaHead', 'OBBFCOSHead', 'OBBAnchorFreeHead'
 ]

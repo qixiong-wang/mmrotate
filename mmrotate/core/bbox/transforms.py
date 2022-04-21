@@ -997,3 +997,14 @@ def get_bbox_dim(bbox_type, with_score=False):
     if with_score:
         dim += 1
     return dim
+
+def arb2result(bboxes, labels, num_classes, bbox_type='hbb'):
+    assert bbox_type in ['hbb', 'obb', 'poly']
+    bbox_dim = get_bbox_dim(bbox_type, with_score=True)
+
+    if bboxes.shape[0] == 0:
+        return [np.zeros((0, bbox_dim), dtype=np.float32) for i in range(num_classes)]
+    else:
+        bboxes = bboxes.cpu().numpy()
+        labels = labels.cpu().numpy()
+        return [bboxes[labels == i, :] for i in range(num_classes)]
