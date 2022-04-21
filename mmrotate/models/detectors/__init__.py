@@ -19,5 +19,5 @@ __all__ = [
     'GlidingVertex', 'ReDet', 'R3Det', 'S2ANet', 'RotatedRepPoints',
     'RotatedBaseDetector', 'RotatedTwoStageDetector',
     'RotatedSingleStageDetector','OBBSingleStageDetector',
-    'FCOSOBB','OBBBaseDetector'
+    'FCOSOBB',
 ]
