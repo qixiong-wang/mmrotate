@@ -148,8 +148,8 @@ data = dict(
         pipeline=test_pipeline),
     test=dict(
         type=dataset_type,
-        ann_file=data_root + 'test_bug/images/',
-        img_prefix=data_root + 'test_bug/images/',
+        ann_file=data_root + 'test/images/',
+        img_prefix=data_root + 'test/images/',
         pipeline=test_pipeline)
     )
 
