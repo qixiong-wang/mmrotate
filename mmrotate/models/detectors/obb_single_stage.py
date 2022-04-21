@@ -36,6 +36,8 @@ class OBBSingleStageDetector(BaseDetector):
             pretrained (str, optional): Path to pre-trained weights.
                 Defaults to None.
         """
+        import pdb
+        pdb.set_trace()
         super(OBBSingleStageDetector, self).init_weights(pretrained)
         self.backbone.init_weights(pretrained=pretrained)
         if self.with_neck:
