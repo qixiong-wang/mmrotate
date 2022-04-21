@@ -1132,6 +1132,7 @@ class RotatedRepPointsHead(BaseDenseHead):
 
         mlvl_bboxes = []
         mlvl_scores = []
+
         for level_idx, (cls_score, points_pred, points) in enumerate(
                 zip(cls_score_list, point_pred_list, mlvl_priors)):
             assert cls_score.size()[-2:] == points_pred.size()[-2:]
@@ -1155,7 +1156,8 @@ class RotatedRepPointsHead(BaseDenseHead):
                 points = points[topk_inds, :]
                 points_pred = points_pred[topk_inds, :]
                 scores = scores[topk_inds, :]
-
+            import pdb  
+            pdb.set_trace()
             poly_pred = self.points2rotrect(points_pred, y_first=True)
             bbox_pos_center = points[:, :2].repeat(1, 4)
             polys = poly_pred * self.point_strides[level_idx] + bbox_pos_center
@@ -1166,8 +1168,7 @@ class RotatedRepPointsHead(BaseDenseHead):
 
         mlvl_bboxes = torch.cat(mlvl_bboxes)
 
-        import pdb
-        pdb.set_trace()
+
         if rescale:
             try:
                 mlvl_bboxes[..., :4] /= mlvl_bboxes[..., :4].new_tensor(scale_factor)
