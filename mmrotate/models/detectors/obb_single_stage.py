@@ -2,11 +2,11 @@ import torch.nn as nn
 
 from mmrotate.core import arb2result
 from mmdet.models.builder import DETECTORS, build_backbone, build_head, build_neck
-from .obb_base import OBBBaseDetector
+from .base import BaseDetector
 
 
 @DETECTORS.register_module()
-class OBBSingleStageDetector(OBBBaseDetector):
+class OBBSingleStageDetector(BaseDetector):
     """Base class for single-stage detectors.
     Single-stage detectors directly and densely predict bounding boxes on the
     output features of the backbone+neck.

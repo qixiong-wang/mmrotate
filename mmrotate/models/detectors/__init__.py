@@ -13,7 +13,6 @@ from .single_stage import RotatedSingleStageDetector
 from .two_stage import RotatedTwoStageDetector
 from .obb_single_stage import OBBSingleStageDetector
 from .fcos_obb import FCOSOBB
-from .obb_base import OBBBaseDetector
 
 __all__ = [
     'RotatedRetinaNet', 'RotatedFasterRCNN', 'OrientedRCNN', 'RoITransformer',
