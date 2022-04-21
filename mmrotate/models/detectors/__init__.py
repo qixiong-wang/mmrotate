@@ -11,10 +11,14 @@ from .rotated_retinanet import RotatedRetinaNet
 from .s2anet import S2ANet
 from .single_stage import RotatedSingleStageDetector
 from .two_stage import RotatedTwoStageDetector
+from .obb_single_stage import OBBSingleStageDetector
+from .fcos_obb import FCOSOBB
+from .obb_base import OBBBaseDetector
 
 __all__ = [
     'RotatedRetinaNet', 'RotatedFasterRCNN', 'OrientedRCNN', 'RoITransformer',
     'GlidingVertex', 'ReDet', 'R3Det', 'S2ANet', 'RotatedRepPoints',
     'RotatedBaseDetector', 'RotatedTwoStageDetector',
-    'RotatedSingleStageDetector'
+    'RotatedSingleStageDetector','OBBSingleStageDetector',
+    'FCOSOBB','OBBBaseDetector'
 ]
