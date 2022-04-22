@@ -4,7 +4,7 @@ import torch.nn as nn
 from mmdet.ops import convex_sort
 from mmrotate.core import bbox2type, get_bbox_areas
 from mmdet.models.builder import LOSSES
-from ..utils import weighted_loss
+from mmdet.models.losses.utils import weighted_loss
 
 
 def shoelace(pts):
