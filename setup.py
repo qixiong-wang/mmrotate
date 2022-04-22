@@ -4,7 +4,8 @@ import shutil
 import sys
 import warnings
 from setuptools import find_packages, setup
-
+from torch.utils.cpp_extension import (BuildExtension, CppExtension,
+                                       CUDAExtension)
 
 def readme():
     """Load README.md."""
@@ -159,6 +160,33 @@ def add_mim_extension():
                 raise ValueError(f'Invalid mode {mode}')
 
 
+
+def make_cuda_ext(name, module, sources, sources_cuda=[]):
+
+    define_macros = []
+    extra_compile_args = {'cxx': []}
+
+    if torch.cuda.is_available() or os.getenv('FORCE_CUDA', '0') == '1':
+        define_macros += [('WITH_CUDA', None)]
+        extension = CUDAExtension
+        extra_compile_args['nvcc'] = [
+            '-D__CUDA_NO_HALF_OPERATORS__',
+            '-D__CUDA_NO_HALF_CONVERSIONS__',
+            '-D__CUDA_NO_HALF2_OPERATORS__',
+        ]
+        sources += sources_cuda
+    else:
+        print(f'Compiling {name} without CUDA')
+        extension = CppExtension
+        # raise EnvironmentError('CUDA is required to compile MMDetection!')
+
+    return extension(
+        name=f'{module}.{name}',
+        sources=[os.path.join(*module.split('.'), p) for p in sources],
+        define_macros=define_macros,
+        extra_compile_args=extra_compile_args)
+
+
 if __name__ == '__main__':
     add_mim_extension()
     setup(
@@ -191,4 +219,15 @@ if __name__ == '__main__':
             'build': parse_requirements('requirements/build.txt'),
             'optional': parse_requirements('requirements/optional.txt'),
         },
+        ext_modules=[
+            make_cuda_ext(
+                name='convex_ext',
+                module='mmdet.ops.convex',
+                sources=[
+                    'src/convex_cpu.cpp',
+                    'src/convex_ext.cpp'
+                ],
+                sources_cuda=['src/convex_cuda.cu']),
+        ],
+        cmdclass={'build_ext': BuildExtension},
         zip_safe=False)
