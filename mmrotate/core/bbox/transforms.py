@@ -1008,3 +1008,36 @@ def arb2result(bboxes, labels, num_classes, bbox_type='hbb'):
         bboxes = bboxes.cpu().numpy()
         labels = labels.cpu().numpy()
         return [bboxes[labels == i, :] for i in range(num_classes)]
+
+
+def get_bbox_areas(bboxes):
+    btype = get_bbox_type(bboxes)
+    if btype == 'hbb':
+        wh = bboxes[..., 2:] - bboxes[..., :2]
+        areas = wh[..., 0] * wh[..., 1]
+    elif btype == 'obb':
+        areas = bboxes[..., 2] * bboxes[..., 3]
+    elif btype == 'poly':
+        pts = bboxes.view(*bboxes.size()[:-1], 4, 2)
+        roll_pts = torch.roll(pts, 1, dims=-2)
+        xyxy = torch.sum(pts[..., 0] * roll_pts[..., 1] -
+                         roll_pts[..., 0] * pts[..., 1], dim=-1)
+        areas = 0.5 * torch.abs(xyxy)
+    else:
+        raise ValueError('The type of bboxes is notype')
+
+    return areas
+
+
+def get_bbox_type(bboxes, with_score=False):
+    dim = bboxes.size(-1)
+    if with_score:
+        dim -= 1
+
+    if dim == 4:
+        return 'hbb'
+    if dim == 5:
+        return 'obb'
+    if dim  == 8:
+        return 'poly'
+    return 'notype'
