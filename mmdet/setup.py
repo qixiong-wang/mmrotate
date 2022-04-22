@@ -68,7 +68,7 @@ short_version = '{}'
 version_info = ({})
 """
     sha = get_hash()
-    with open('VERSION', 'r') as f:
+    with open('mmdet/VERSION', 'r') as f:
         SHORT_VERSION = f.read().strip()
     VERSION_INFO = ', '.join(SHORT_VERSION.split('.'))
     VERSION = SHORT_VERSION + '+' + sha
@@ -224,79 +224,6 @@ if __name__ == '__main__':
         },
         ext_modules=[
             make_cuda_ext(
-                name='compiling_info',
-                module='mmdet.ops.utils',
-                sources=['src/compiling_info.cpp']),
-            make_cuda_ext(
-                name='nms_ext',
-                module='mmdet.ops.nms',
-                sources=['src/nms_ext.cpp', 'src/cpu/nms_cpu.cpp'],
-                sources_cuda=[
-                    'src/cuda/nms_cuda.cpp', 'src/cuda/nms_kernel.cu'
-                ]),
-            make_cuda_ext(
-                name='roi_align_ext',
-                module='mmdet.ops.roi_align',
-                sources=[
-                    'src/roi_align_ext.cpp',
-                    'src/cpu/roi_align_v2.cpp',
-                ],
-                sources_cuda=[
-                    'src/cuda/roi_align_kernel.cu',
-                    'src/cuda/roi_align_kernel_v2.cu'
-                ]),
-            make_cuda_ext(
-                name='roi_pool_ext',
-                module='mmdet.ops.roi_pool',
-                sources=['src/roi_pool_ext.cpp'],
-                sources_cuda=['src/cuda/roi_pool_kernel.cu']),
-            make_cuda_ext(
-                name='sigmoid_focal_loss_ext',
-                module='mmdet.ops.sigmoid_focal_loss',
-                sources=['src/sigmoid_focal_loss_ext.cpp'],
-                sources_cuda=['src/cuda/sigmoid_focal_loss_cuda.cu']),
-            make_cuda_ext(
-                name='masked_conv2d_ext',
-                module='mmdet.ops.masked_conv',
-                sources=['src/masked_conv2d_ext.cpp'],
-                sources_cuda=[
-                    'src/cuda/masked_conv2d_cuda.cpp',
-                    'src/cuda/masked_conv2d_kernel.cu'
-                ]),
-            make_cuda_ext(
-                name='corner_pool_ext',
-                module='mmdet.ops.corner_pool',
-                sources=['src/corner_pool.cpp']),
-
-
-            make_cuda_ext(
-                name='roi_align_rotated_ext',
-                module='mmdet.ops.roi_align_rotated',
-                sources=[
-                    'src/roi_align_rotated_cpu.cpp',
-                    'src/roi_align_rotated_ext.cpp'
-                ],
-                sources_cuda=['src/roi_align_rotated_cuda.cu']),
-            make_cuda_ext(
-                name='nms_rotated_ext',
-                module='mmdet.ops.nms_rotated',
-                sources=[
-                    'src/nms_rotated_cpu.cpp',
-                    'src/nms_rotated_ext.cpp'
-                ],
-                sources_cuda=[
-                    'src/nms_rotated_cuda.cu',
-                    'src/poly_nms_cuda.cu',
-                ]),
-            make_cuda_ext(
-                name='box_iou_rotated_ext',
-                module='mmdet.ops.box_iou_rotated',
-                sources=[
-                    'src/box_iou_rotated_cpu.cpp',
-                    'src/box_iou_rotated_ext.cpp'
-                ],
-                sources_cuda=['src/box_iou_rotated_cuda.cu']),
-            make_cuda_ext(
                 name='convex_ext',
                 module='mmdet.ops.convex',
                 sources=[
@@ -304,15 +231,6 @@ if __name__ == '__main__':
                     'src/convex_ext.cpp'
                 ],
                 sources_cuda=['src/convex_cuda.cu']),
-            make_cuda_ext(
-                name='orn_cuda',
-                module='mmdet.ops.orn',
-                sources=['src/vision.cpp',
-                         'src/cpu/ActiveRotatingFilter_cpu.cpp',
-                         'src/cpu/RotationInvariantEncoding_cpu.cpp',
-                         'src/cuda/ActiveRotatingFilter_cuda.cu',
-                         'src/cuda/RotationInvariantEncoding_cuda.cu',
-                         ]),
         ],
         cmdclass={'build_ext': BuildExtension},
         zip_safe=False)
