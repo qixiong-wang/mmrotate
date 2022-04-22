@@ -1028,6 +1028,29 @@ def get_bbox_areas(bboxes):
 
     return areas
 
+_type_func_map = {
+    ('poly', 'obb'): poly2obb,
+    # ('poly', 'hbb'): poly2hbb,
+    ('obb', 'poly'): obb2poly,
+    ('obb', 'hbb'): obb2hbb,
+    # ('hbb', 'poly'): hbb2poly,
+    ('hbb', 'obb'): hbb2obb
+}
+
+
+def bbox2type(bboxes, to_type):
+    assert to_type in ['hbb', 'obb', 'poly']
+
+    ori_type = get_bbox_type(bboxes)
+    if ori_type == 'notype':
+        raise ValueError('Not a bbox type')
+    if ori_type == to_type:
+        return bboxes
+    trans_func = _type_func_map[(ori_type, to_type)]
+    return trans_func(bboxes)
+    
+
+
 
 def get_bbox_type(bboxes, with_score=False):
     dim = bboxes.size(-1)
