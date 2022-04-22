@@ -68,7 +68,7 @@ short_version = '{}'
 version_info = ({})
 """
     sha = get_hash()
-    with open('mmdet/VERSION', 'r') as f:
+    with open('VERSION', 'r') as f:
         SHORT_VERSION = f.read().strip()
     VERSION_INFO = ', '.join(SHORT_VERSION.split('.'))
     VERSION = SHORT_VERSION + '+' + sha
