@@ -34,6 +34,8 @@ class ConvexGIoULossFuction(Function):
             loss_weight (float, optional): The weight of loss. Defaults to 1.0.
         """
         ctx.save_for_backward(pred)
+        import pdb
+        pdb.set_trace()
         convex_gious, grad = convex_giou(pred, target)
 
         loss = 1 - convex_gious
