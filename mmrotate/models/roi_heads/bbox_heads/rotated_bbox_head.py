@@ -280,6 +280,7 @@ class RotatedBBoxHead(BaseModule):
     def loss(self,
              cls_score,
              bbox_pred,
+             bbox_feats,
              rois,
              labels,
              label_weights,
@@ -323,7 +324,11 @@ class RotatedBBoxHead(BaseModule):
                     reduction_override=reduction_override)
                 import pdb
                 pdb.set_trace()
-                large_batch_queue,queue_label = self.large_batch_queue(pos_reid, pos_reid_ids)
+                pos_feats = bbox_feats[labels!=self.num_classes]
+                pos_labels = labels[labels!=self.num_classes]
+                large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
+                loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
+                losses['loss_triplet'] = loss_batch_tri
 
                 if isinstance(loss_cls_, dict):
                     losses.update(loss_cls_)
@@ -334,6 +339,7 @@ class RotatedBBoxHead(BaseModule):
                     losses.update(acc_)
                 else:
                     losses['acc'] = accuracy(cls_score, labels)
+
         if bbox_pred is not None:
             bg_class_ind = self.num_classes
             # 0~self.num_classes-1 are FG, self.num_classes is BG
