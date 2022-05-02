@@ -79,8 +79,8 @@ class TripletLossbatch(nn.Module):
                 avai_labels.append(label)
                 avai_features.append(torch.mean(pid_features[pid_labels==label],dim=0))
 
-        avai_labels=torch.stack(avai_labels)
-        avai_features=torch.stack(avai_features)
+        avai_labels=torch.stack(avai_labels).cuda()
+        avai_features=torch.stack(avai_features).cuda()
         # batch_queue_label=[]
 
         # for i in range(large_batch_queue.shape[0]):
