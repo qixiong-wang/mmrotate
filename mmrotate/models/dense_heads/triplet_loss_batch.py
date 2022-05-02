@@ -36,8 +36,8 @@ def hard_example_mining(dist_mat, pid_labels, queue_labels, return_inds=False):
     assert len(dist_mat.size()) == 2
 
     N = dist_mat.size(0) ### positive sample in batch
-    dist_ap = torch.zeros(N)
-    dist_an = torch.zeros(N)
+    dist_ap = torch.zeros(N).cuda()
+    dist_an = torch.zeros(N).cuda()
 
     for i in range(N):
         label = pid_labels[i]
