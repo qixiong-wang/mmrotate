@@ -166,16 +166,22 @@ data = dict(
     workers_per_gpu=6,
     persistent_workers=True,
     train=dict(
-        _delete_=True,
-        type='ClassBalancedDataset',
-        oversample_thr=0.03,
-        dataset=dict(
-            type=dataset_type,
-            ann_file=data_root + 'train/annfiles/',
-            img_prefix=data_root + 'train/images/',
-            pipeline=train_pipeline,
+        type=dataset_type,
+        ann_file=data_root + 'train/annfiles/',
+        img_prefix=data_root + 'train/images/',
+        pipeline=train_pipeline,
         ),
-        ),
+    # train=dict(
+    #     _delete_=True,
+    #     type='ClassBalancedDataset',
+    #     oversample_thr=0.03,
+    #     dataset=dict(
+    #         type=dataset_type,
+    #         ann_file=data_root + 'train/annfiles/',
+    #         img_prefix=data_root + 'train/images/',
+    #         pipeline=train_pipeline,
+    #     ),
+    #     ),
     val=dict(
         type=dataset_type,
         ann_file=data_root + 'train/annfiles/',
