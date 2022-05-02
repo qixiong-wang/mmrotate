@@ -324,12 +324,12 @@ class RotatedBBoxHead(BaseModule):
                     reduction_override=reduction_override)
 
                 pos_feats = bbox_feats[labels!=self.num_classes]
-                pos_feats = torch.mean(pos_feats,dim=[2,3])
+                pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
                 pos_labels = labels[labels!=self.num_classes]
                 large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
                 loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
-                import pdb
-                pdb.set_trace()
+                # import pdb
+                # pdb.set_trace()
                 losses['loss_triplet'] = loss_batch_tri
 
                 if isinstance(loss_cls_, dict):
