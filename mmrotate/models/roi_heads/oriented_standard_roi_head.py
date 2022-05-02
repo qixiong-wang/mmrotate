@@ -5,7 +5,6 @@ from mmrotate.core import rbbox2roi
 from ..builder import ROTATED_HEADS
 from .rotate_standard_roi_head import RotatedStandardRoIHead
 
-
 @ROTATED_HEADS.register_module()
 class OrientedStandardRoIHead(RotatedStandardRoIHead):
     """Oriented RCNN roi head including one bbox head."""
@@ -99,11 +98,12 @@ class OrientedStandardRoIHead(RotatedStandardRoIHead):
 
         bbox_targets = self.bbox_head.get_targets(sampling_results, gt_bboxes,
                                                   gt_labels, self.train_cfg)
-        import pdb
-        pdb.set_trace()
+   
         loss_bbox = self.bbox_head.loss(bbox_results['cls_score'],
                                         bbox_results['bbox_pred'], rois,
                                         *bbox_targets)
+        
+
 
         bbox_results.update(loss_bbox=loss_bbox)
         return bbox_results

@@ -10,6 +10,8 @@ from mmdet.models.utils import build_linear_layer
 
 from mmrotate.core import build_bbox_coder, multiclass_nms_rotated
 from ...builder import ROTATED_HEADS, build_loss
+from ...dense_heads.large_batch_queue import Large_batch_queue
+from ...dense_heads.triplet_loss_batch import TripletLossbatch
 
 
 @ROTATED_HEADS.register_module()
@@ -112,6 +114,9 @@ class RotatedBBoxHead(BaseModule):
                     dict(
                         type='Normal', std=0.001, override=dict(name='fc_reg'))
                 ]
+        self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=16)
+        self.loss_batch_tri = TripletLossbatch()
+
 
     @property
     def custom_cls_channels(self):
@@ -309,12 +314,17 @@ class RotatedBBoxHead(BaseModule):
         if cls_score is not None:
             avg_factor = max(torch.sum(label_weights > 0).float().item(), 1.)
             if cls_score.numel() > 0:
+                
                 loss_cls_ = self.loss_cls(
                     cls_score,
                     labels,
                     label_weights,
                     avg_factor=avg_factor,
                     reduction_override=reduction_override)
+                import pdb
+                pdb.set_trace()
+                large_batch_queue,queue_label = self.large_batch_queue(pos_reid, pos_reid_ids)
+
                 if isinstance(loss_cls_, dict):
                     losses.update(loss_cls_)
                 else:

@@ -8,15 +8,15 @@ class Large_batch_queue(nn.Module):
     Labeled matching of OIM loss function.
     """
 
-    def __init__(self, num_person=5532, number_of_instance=2, feat_len=256):
+    def __init__(self, num_classes=5532, number_of_instance=2, feat_len=256):
         """
         Args:
             num_persons (int): Number of labeled persons.
             feat_len (int): Length of the feature extracted by the network.
         """
         super(Large_batch_queue, self).__init__()
-        self.register_buffer("large_batch_queue", torch.zeros(num_person*number_of_instance, feat_len))
-        self.register_buffer("queue_label", torch.zeros(num_person*number_of_instance))
+        self.register_buffer("large_batch_queue", torch.zeros(num_classes*number_of_instance, feat_len))
+        self.register_buffer("queue_label", torch.zeros(num_classes*number_of_instance))
         self.register_buffer("tail",torch.tensor(0).long())
 
     def forward(self, features, pid_labels):
