@@ -90,7 +90,8 @@ class TripletLossbatch(nn.Module):
         dist_ap, dist_an = hard_example_mining(
             dist_mat,avai_labels,batch_queue_label)
         y = dist_an.new().resize_as_(dist_an).fill_(1)
-
+        import pdb
+        pdb.set_trace()
         loss = self.ranking_loss(dist_an, dist_ap, y)
         # torch.cuda.empty_cache()
         return loss

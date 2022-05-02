@@ -329,6 +329,8 @@ class RotatedBBoxHead(BaseModule):
                 pos_labels = labels[labels!=self.num_classes]
                 large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
                 loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
+                device = loss_batch_tri.get_device()
+
                 import pdb
                 pdb.set_trace()
                 losses['loss_triplet'] = loss_batch_tri

@@ -18,7 +18,6 @@ class Large_batch_queue(nn.Module):
         self.register_buffer("large_batch_queue", torch.zeros(num_classes*number_of_instance, feat_len))
         self.register_buffer("queue_label", torch.zeros(num_classes*number_of_instance))
         self.register_buffer("tail",torch.tensor(0).long())
-        
 
     def forward(self, features, pid_labels):
         """
