@@ -326,9 +326,7 @@ class RotatedBBoxHead(BaseModule):
                     reduction_override=reduction_override)
 
                 pos_feats = bbox_feats[labels!=self.num_classes]
-
                 pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
-
                 pos_labels = labels[labels!=self.num_classes]
 
                 large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
