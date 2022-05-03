@@ -172,10 +172,10 @@ class RotatedStandardRoIHead(BaseModule, metaclass=ABCMeta):
         if self.with_shared_head:   
             bbox_feats = self.shared_head(bbox_feats)
 
-        cls_score, bbox_pred, bbox_feats = self.bbox_head(bbox_feats)
+        cls_score, bbox_pred, feats = self.bbox_head(bbox_feats)
 
         bbox_results = dict(
-            cls_score=cls_score, bbox_pred=bbox_pred, bbox_feats=bbox_feats)
+            cls_score=cls_score, bbox_pred=bbox_pred, bbox_feats=feats)
         return bbox_results
 
     def _bbox_forward_train(self, x, sampling_results, gt_bboxes, gt_labels,
