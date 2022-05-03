@@ -171,8 +171,6 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
         if self.num_shared_convs > 0:
             for conv in self.shared_convs:
                 x = conv(x)
-        import pdb
-        pdb.set_trace()
         if self.num_shared_fcs > 0:
             if self.with_avg_pool:
                 x = self.avg_pool(x)
