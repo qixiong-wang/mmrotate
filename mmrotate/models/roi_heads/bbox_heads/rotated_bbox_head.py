@@ -326,8 +326,9 @@ class RotatedBBoxHead(BaseModule):
                     label_weights,
                     avg_factor=avg_factor,
                     reduction_override=reduction_override)
-
+                
                 pos_feats = bbox_feats[labels!=self.num_classes]
+                pos_feats = F.normalize(pos_feats,dim=1)
                 # pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
                 pos_labels = labels[labels!=self.num_classes]
 
