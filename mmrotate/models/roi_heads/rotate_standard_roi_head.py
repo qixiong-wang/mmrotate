@@ -171,7 +171,8 @@ class RotatedStandardRoIHead(BaseModule, metaclass=ABCMeta):
             
         if self.with_shared_head:   
             bbox_feats = self.shared_head(bbox_feats)
-        
+        import pdb
+        pdb.set_trace()
         cls_score, bbox_pred = self.bbox_head(bbox_feats)
 
         bbox_results = dict(
