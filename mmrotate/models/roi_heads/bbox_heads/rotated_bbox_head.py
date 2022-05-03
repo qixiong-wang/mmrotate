@@ -114,9 +114,9 @@ class RotatedBBoxHead(BaseModule):
                     dict(
                         type='Normal', std=0.001, override=dict(name='fc_reg'))
                 ]
-        self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=64, feat_len=256)
-        # self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=16).cuda()
-        self.loss_batch_tri = TripletLossbatch()
+        # self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=64, feat_len=256)
+        # # self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=16).cuda()
+        # self.loss_batch_tri = TripletLossbatch()
 
 
     @property
@@ -325,14 +325,15 @@ class RotatedBBoxHead(BaseModule):
                     avg_factor=avg_factor,
                     reduction_override=reduction_override)
 
-                pos_feats = bbox_feats[labels!=self.num_classes]
-                pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
-                pos_labels = labels[labels!=self.num_classes]
+                # pos_feats = bbox_feats[labels!=self.num_classes]
+                # pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
+                # pos_labels = labels[labels!=self.num_classes]
 
-                large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
-                loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
-                # device = loss_batch_tri.get_device()
-                losses['loss_triplet'] = loss_batch_tri
+                # large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
+                # loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
+                # # device = loss_batch_tri.get_device()
+                # losses['loss_triplet'] = loss_batch_tri
+                
                 if isinstance(loss_cls_, dict):
                     losses.update(loss_cls_)
                 else:
