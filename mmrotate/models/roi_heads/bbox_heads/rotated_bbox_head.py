@@ -79,7 +79,7 @@ class RotatedBBoxHead(BaseModule):
         self.bbox_coder = build_bbox_coder(bbox_coder)
         self.loss_cls = build_loss(loss_cls)
         self.loss_bbox = build_loss(loss_bbox)
-
+        self.bn_neck=nn.BatchNorm1d(256)
         in_channels = self.in_channels
         if self.with_avg_pool:
             self.avg_pool = nn.AvgPool2d(self.roi_feat_size)
@@ -140,6 +140,9 @@ class RotatedBBoxHead(BaseModule):
         if self.with_avg_pool:
             x = self.avg_pool(x)
         x = x.view(x.size(0), -1)
+        import pdb
+        pdb.set_trace()
+        x = F.normalize(x,dim=1)
         cls_score = self.fc_cls(x) if self.with_cls else None
         bbox_pred = self.fc_reg(x) if self.with_reg else None
         return cls_score, bbox_pred
@@ -326,6 +329,7 @@ class RotatedBBoxHead(BaseModule):
 
                 pos_feats = bbox_feats[labels!=self.num_classes]
                 pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
+
                 pos_labels = labels[labels!=self.num_classes]
 
                 large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
