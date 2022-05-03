@@ -171,7 +171,8 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
         if self.num_shared_convs > 0:
             for conv in self.shared_convs:
                 x = conv(x)
-
+        import pdb
+        pdb.set_trace()
         if self.num_shared_fcs > 0:
             if self.with_avg_pool:
                 x = self.avg_pool(x)
@@ -180,7 +181,8 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
 
             for fc in self.shared_fcs:
                 x = self.relu(fc(x))
-
+        import pdb
+        pdb.set_trace()
         # x = F.normalize(x,dim=1)
         # separate branches
         x_cls = x
