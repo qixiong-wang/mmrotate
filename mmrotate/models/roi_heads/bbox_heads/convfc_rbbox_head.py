@@ -182,7 +182,7 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
                 x = self.relu(fc(x))
 
         x = F.normalize(x,dim=1)
-        
+
         # separate branches
         x_cls = x
         x_reg = x
