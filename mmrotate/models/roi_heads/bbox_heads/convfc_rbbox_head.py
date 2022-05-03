@@ -181,7 +181,7 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
             for fc in self.shared_fcs:
                 x = self.relu(fc(x))
 
-        x = F.normalize(x,dim=1)
+        x = F.normalize(x,dim=1).copy()
 
         # separate branches
         x_cls = x
