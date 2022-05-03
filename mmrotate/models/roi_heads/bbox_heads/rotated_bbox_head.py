@@ -336,7 +336,6 @@ class RotatedBBoxHead(BaseModule):
                 # device = loss_batch_tri.get_device()
 
                 losses['loss_triplet'] = loss_batch_tri
-                print(loss_batch_tri)
                 if isinstance(loss_cls_, dict):
                     losses.update(loss_cls_)
                 else:
