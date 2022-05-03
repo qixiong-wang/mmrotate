@@ -180,7 +180,7 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
             for fc in self.shared_fcs:
                 x = self.relu(fc(x))
 
-        # x = F.normalize(x,dim=1)
+        x = F.normalize(x,dim=1)
         # separate branches
         x_cls = x
         x_reg = x
@@ -205,7 +205,7 @@ class RotatedConvFCBBoxHead(RotatedBBoxHead):
 
         cls_score = self.fc_cls(x_cls) if self.with_cls else None
         bbox_pred = self.fc_reg(x_reg) if self.with_reg else None
-        return cls_score, bbox_pred
+        return cls_score, bbox_pred, x
 
 
 @ROTATED_HEADS.register_module()
