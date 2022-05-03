@@ -5,6 +5,7 @@ from mmcv.cnn import ConvModule
 from mmcv.runner import force_fp32
 from mmdet.models.losses import accuracy
 from mmdet.models.utils import build_linear_layer
+import torch.nn.functional as F
 
 from ...builder import ROTATED_HEADS
 from .rotated_bbox_head import RotatedBBoxHead
