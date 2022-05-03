@@ -142,6 +142,7 @@ class RotatedBBoxHead(BaseModule):
         x = x.view(x.size(0), -1)
         import pdb
         pdb.set_trace()
+        
         x = F.normalize(x,dim=1)
         cls_score = self.fc_cls(x) if self.with_cls else None
         bbox_pred = self.fc_reg(x) if self.with_reg else None
