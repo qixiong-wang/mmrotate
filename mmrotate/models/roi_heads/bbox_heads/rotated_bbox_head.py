@@ -79,7 +79,9 @@ class RotatedBBoxHead(BaseModule):
         self.bbox_coder = build_bbox_coder(bbox_coder)
         self.loss_cls = build_loss(loss_cls)
         self.loss_bbox = build_loss(loss_bbox)
-        self.bn_neck=nn.BatchNorm1d(256)
+
+        # self.bn_neck=nn.BatchNorm1d(256)
+
         in_channels = self.in_channels
         if self.with_avg_pool:
             self.avg_pool = nn.AvgPool2d(self.roi_feat_size)
@@ -333,7 +335,7 @@ class RotatedBBoxHead(BaseModule):
                 # loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
                 # # device = loss_batch_tri.get_device()
                 # losses['loss_triplet'] = loss_batch_tri
-                
+
                 if isinstance(loss_cls_, dict):
                     losses.update(loss_cls_)
                 else:
