@@ -325,17 +325,18 @@ class RotatedBBoxHead(BaseModule):
                     avg_factor=avg_factor,
                     reduction_override=reduction_override)
 
-                # pos_feats = bbox_feats[labels!=self.num_classes]
-                # # pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
+                pos_feats = bbox_feats[labels!=self.num_classes]
 
-                # pos_labels = labels[labels!=self.num_classes]
+                # pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
 
-                # large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
-                # loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
-                # # device = loss_batch_tri.get_device()
+                pos_labels = labels[labels!=self.num_classes]
 
-                # losses['loss_triplet'] = loss_batch_tri
+                large_batch_queue,queue_label = self.large_batch_queue(pos_feats, pos_labels)
+                loss_batch_tri=self.loss_batch_tri(pos_feats, pos_labels,large_batch_queue,queue_label)
+                # device = loss_batch_tri.get_device()
 
+                losses['loss_triplet'] = loss_batch_tri
+                print(loss_batch_tri)
                 if isinstance(loss_cls_, dict):
                     losses.update(loss_cls_)
                 else:
