@@ -8,7 +8,7 @@ def euclidean_dist(x, y):
     Args:
       x: pytorch Variable, with shape [m, d]
       y: pytorch Variable, with shape [n, d]
-    Returns:s
+    Returns:
       dist: pytorch Variable, with shape [m, n]
     """
     m, n = x.size(0), y.size(0)
@@ -47,7 +47,7 @@ def hard_example_mining(dist_mat, pid_labels, queue_labels, return_inds=False):
     return dist_ap, dist_an
 
 
-class TripletLossbatch(nn.Module):
+class TripletLossbatch_classwise(nn.Module):
     """Triplet loss with hard positive/negative mining.
 
     Reference:
@@ -59,11 +59,11 @@ class TripletLossbatch(nn.Module):
         margin (float): margin for triplet.
     """
     def __init__(self, margin=0.3, num_classes=37):
-        super(TripletLossbatch, self).__init__()
+        super(TripletLossbatch_classwise, self).__init__()
         self.margin = margin
         self.ranking_loss = nn.MarginRankingLoss(margin=margin)
         self.num_classes = num_classes
-    def forward(self, pid_features,pid_labels, large_batch_queue,batch_queue_label):
+    def forward(self, pid_features,pid_labels, large_batch_queue):
         """
         Does not calculate noise inputs with label -1
         Args:
@@ -81,12 +81,12 @@ class TripletLossbatch(nn.Module):
 
         avai_labels=torch.stack(avai_labels).cuda()
         avai_features=torch.stack(avai_features).cuda()
-        # batch_queue_label=[]
+        batch_queue_label=[]
 
-        # for i in range(large_batch_queue.shape[0]):
-        #     batch_queue_label.extend([i]*large_batch_queue.shape[1])
-        # batch_queue_label=torch.tensor(batch_queue_label).cuda()
-        dist_mat = euclidean_dist(avai_features, large_batch_queue)
+        for i in range(large_batch_queue.shape[0]):
+            batch_queue_label.extend([i]*large_batch_queue.shape[1])
+        batch_queue_label=torch.tensor(batch_queue_label).cuda()
+        dist_mat = euclidean_dist(avai_features, large_batch_queue.reshape(-1,large_batch_queue.shape[-1]))
         dist_ap, dist_an = hard_example_mining(
             dist_mat,avai_labels,batch_queue_label)
         y = dist_an.new().resize_as_(dist_an).fill_(1)
