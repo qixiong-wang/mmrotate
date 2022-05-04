@@ -80,7 +80,7 @@ class RotatedBBoxHead(BaseModule):
         self.loss_cls = build_loss(loss_cls)
         self.loss_bbox = build_loss(loss_bbox)
 
-        # self.bn_neck=nn.BatchNorm1d(256)
+        self.bn_neck=nn.BatchNorm1d(2048)
 
         in_channels = self.in_channels
         if self.with_avg_pool:
@@ -328,7 +328,8 @@ class RotatedBBoxHead(BaseModule):
                     reduction_override=reduction_override)
                 
                 pos_feats = bbox_feats[labels!=self.num_classes]
-                pos_feats = F.normalize(pos_feats,dim=1)
+                # pos_feats = F.normalize(pos_feats,dim=1)
+                pos_feats = self.bn_neck(pos_feats)
                 # pos_feats = F.normalize(torch.mean(pos_feats,dim=[2,3]),dim=1)
                 pos_labels = labels[labels!=self.num_classes]
 
