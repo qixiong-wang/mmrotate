@@ -80,7 +80,7 @@ class RotatedBBoxHead(BaseModule):
         self.loss_cls = build_loss(loss_cls)
         self.loss_bbox = build_loss(loss_bbox)
 
-        self.bn_neck=nn.BatchNorm1d(2048)
+        self.bn_neck=nn.BatchNorm1d(1024)
 
         in_channels = self.in_channels
         if self.with_avg_pool:
