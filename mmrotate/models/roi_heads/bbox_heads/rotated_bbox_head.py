@@ -119,7 +119,7 @@ class RotatedBBoxHead(BaseModule):
                         type='Normal', std=0.001, override=dict(name='fc_reg'))
                 ]
         # self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=64, feat_len=1024)
-        self.large_batch_queue=Large_batch_queue_classwise(num_classes=37,number_of_instance=64, feat_len=1024)
+        self.large_batch_queue=Large_batch_queue_classwise(num_classes=37,number_of_instance=16, feat_len=1024)
 
         # self.large_batch_queue=Large_batch_queue(num_classes=37,number_of_instance=16).cuda()
         # self.loss_batch_tri = TripletLossbatch()
