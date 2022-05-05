@@ -88,7 +88,11 @@ class Large_batch_queue_classwise(nn.Module):
         # else:
         #     dist.barrier()
         gather_features,gather_pid_labels = undefined_l_gather(features,pid_labels)
-
+        if features.get_device() == 0:
+            import pdb
+            pdb.set_trace()
+        else:
+            dist.barrier()
         with torch.no_grad():
             for indx, label in enumerate(torch.unique(gather_pid_labels)):
                 if label >= 0 and label<self.num_classes:
