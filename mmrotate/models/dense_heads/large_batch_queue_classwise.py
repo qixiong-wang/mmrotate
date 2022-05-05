@@ -87,6 +87,7 @@ class Large_batch_queue_classwise(nn.Module):
         #     pdb.set_trace()
         # else:
         #     dist.barrier()
+        
         gather_features,gather_pid_labels = undefined_l_gather(features,pid_labels)
         if features.get_device() == 0:
             import pdb
