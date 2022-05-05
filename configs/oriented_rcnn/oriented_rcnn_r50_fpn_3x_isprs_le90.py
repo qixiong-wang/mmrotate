@@ -162,8 +162,8 @@ dataset_type = 'ISPRSDataset'
 
 
 data = dict(
-    samples_per_gpu=6,
-    workers_per_gpu=6,
+    samples_per_gpu=1,
+    workers_per_gpu=1,
     persistent_workers=True,
     train=dict(
         type=dataset_type,
