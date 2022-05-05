@@ -1,5 +1,6 @@
 import torch
 import torch.nn as nn
+import torch.distributed as dist
 
 
 
@@ -30,6 +31,11 @@ class Large_batch_queue_classwise(nn.Module):
             scores (Tensor[N, num_persons]): Labeled matching scores, namely the similarities
                                              between proposals and labeled persons.
         """
+        if features.get_device() == 0:
+            import pdb
+            pdb.set_trace()
+        else:
+            dist.barriar()
         with torch.no_grad():
             for indx, label in enumerate(torch.unique(pid_labels)):
                 if label >= 0 and label<self.num_classes:

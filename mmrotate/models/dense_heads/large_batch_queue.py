@@ -29,6 +29,7 @@ class Large_batch_queue(nn.Module):
             scores (Tensor[N, num_persons]): Labeled matching scores, namely the similarities
                                              between proposals and labeled persons.
         """
+        
         with torch.no_grad():
             for indx, label in enumerate(torch.unique(pid_labels)):
                 if label >= 0:
