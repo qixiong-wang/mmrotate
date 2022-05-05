@@ -35,7 +35,7 @@ class Large_batch_queue_classwise(nn.Module):
             import pdb
             pdb.set_trace()
         else:
-            dist.barriar()
+            dist.barrier()
         with torch.no_grad():
             for indx, label in enumerate(torch.unique(pid_labels)):
                 if label >= 0 and label<self.num_classes:
