@@ -7,9 +7,9 @@ from mmcv.runner import (get_dist_info, init_dist, load_checkpoint,
 
 @torch.no_grad()
 def all_gather_tensor(x, gpu=None, save_memory=False):
-    rank, world_size, is_dist = get_dist_info()
-    if not is_dist:
-        return x
+    
+    rank, world_size = get_dist_info()
+
     if not save_memory:
         # all gather features in parallel
         # cost more GPU memory but less time
