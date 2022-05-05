@@ -92,12 +92,9 @@ class Large_batch_queue_classwise(nn.Module):
 
         with torch.no_grad():
             for indx, label in enumerate(torch.unique(gather_pid_labels)):
+                label=int(label)
                 if label >= 0 and label<self.num_classes:
-                    if features.get_device() == 0:
-                        import pdb
-                        pdb.set_trace()
-                    else:
-                        dist.barrier()
+
                     self.large_batch_queue[label,self.tail[label]] = torch.mean(gather_features[gather_pid_labels==label],dim=0)
 
                     # self.large_batch_queue[label,self.tail[label]] = torch.mean(features[pid_labels==label],dim=0)
