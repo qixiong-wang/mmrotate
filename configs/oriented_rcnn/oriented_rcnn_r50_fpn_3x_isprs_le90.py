@@ -196,4 +196,4 @@ data = dict(
 
 
 optimizer = dict(lr=0.02)
-work_dir = 'work_dirs/ISPRS_largebatch64_classwise'
+work_dir = 'work_dirs/ISPRS_gatherlargebatch16_classwise'
