@@ -105,13 +105,13 @@ lr_config = dict(
 total_epochs = 12
 
 
-data_root = '/data/wangqx/DOTA1_0/split_ms_dota1_0/'
+data_root = '/home/liyan/DOTA/1_0/split_ms_dota1_0/'
 dataset_type = 'DOTADataset'
 
 
 data = dict(
-    samples_per_gpu=8,
-    workers_per_gpu=8,
+    samples_per_gpu=1,
+    workers_per_gpu=1,
     train=dict(
         type=dataset_type,
         ann_file=data_root + 'trainval/annfiles/',

@@ -157,7 +157,7 @@ test_pipeline = [
         ])
 ]
 
-data_root = '/data/wangqx/FAIR1M/split_ms/'
+data_root = '/home/wangqx/FAIR1M/split_ms/'
 dataset_type = 'ISPRSDataset'
 
 

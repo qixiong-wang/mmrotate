@@ -246,7 +246,11 @@ class OBBFCOSHead(OBBAnchorFreeHead):
             pos_points = flatten_points[pos_inds]
             pos_decoded_bbox_preds = distance2obb(pos_points, pos_bbox_preds)
             pos_decoded_target_preds = distance2obb(pos_points, pos_bbox_targets)
+            import pdb
+            pdb.set_trace()
             gt_bboxes = [mintheta_obb(bboxes) for bboxes in gt_bboxes]
+            import pdb
+            pdb.set_trace()
             # centerness weighted iou loss
             
             loss_bbox = self.loss_bbox(
@@ -256,10 +260,12 @@ class OBBFCOSHead(OBBAnchorFreeHead):
                 avg_factor=pos_centerness_targets.sum())
             loss_centerness = self.loss_centerness(pos_centerness,
                                                    pos_centerness_targets)
+            
         else:
             loss_bbox = pos_bbox_preds.sum()
             loss_centerness = pos_centerness.sum()
-
+        import pdb
+        pdb.set_trace()
         return dict(
             loss_cls=loss_cls,
             loss_bbox=loss_bbox,
@@ -381,6 +387,7 @@ class OBBFCOSHead(OBBAnchorFreeHead):
                 bbox_pred = bbox_pred[topk_inds, :]
                 scores = scores[topk_inds, :]
                 centerness = centerness[topk_inds]
+            
             bboxes = distance2obb(points, bbox_pred, max_shape=img_shape)
             mlvl_bboxes.append(bboxes)
             mlvl_scores.append(scores)

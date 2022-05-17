@@ -939,6 +939,9 @@ def gt2gaussian(target):
     return (center, R.matmul(diag).matmul(R.transpose(-1, -2)))
 
 
+#############  add by OBBdetection
+
+
 def regular_theta(theta, mode='180', start=-pi/2):
     assert mode in ['360', '180']
     cycle = 2 * pi if mode == '360' else pi
@@ -963,7 +966,7 @@ def mintheta_obb(obboxes):
 
 def distance2obb(points, distance, max_shape=None):
     distance, theta = distance.split([4, 1], dim=1)
-
+    
     Cos, Sin = torch.cos(theta), torch.sin(theta)
     Matrix = torch.cat([Cos, Sin, -Sin, Cos], dim=1).reshape(-1, 2, 2)
 
