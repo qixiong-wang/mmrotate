@@ -153,7 +153,7 @@ test_pipeline = [
         ])
 ]
 
-data_root = '/home/liyan/DOTA/1_0/split_ms_dota1_0/'
+data_root = '/home/wangqx/DOTA/1_0/split_ms_dota1_0/'
 dataset_type = 'DOTADataset'
 
 
